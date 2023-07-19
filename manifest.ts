@@ -1,4 +1,4 @@
-import packageJson from "./package.json";
+import packageJson from './package.json';
 
 /**
  * After changing, please reload the extension at `chrome://extensions`
@@ -8,41 +8,38 @@ const manifest: chrome.runtime.ManifestV3 = {
   name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
-  options_page: "src/pages/options/index.html",
-  background: {
-    service_worker: "src/pages/background/index.js",
-    type: "module",
-  },
+  options_page: 'src/pages/options/index.html',
   action: {
-    default_popup: "src/pages/popup/index.html",
-    default_icon: "icon-34.png",
-  },
-  chrome_url_overrides: {
-    newtab: "src/pages/newtab/index.html",
+    default_popup: 'src/pages/popup/index.html',
+    default_icon: 'icon-34.png'
   },
   icons: {
-    "128": "icon-128.png",
+    '128': 'icon-128.png'
   },
   content_scripts: [
     {
-      matches: ["http://*/*", "https://*/*", "<all_urls>"],
-      js: ["src/pages/content/index.js"],
+      matches: ['https://www.youtube.com/*', 'https://music.youtube.com/*'],
+      all_frames: true,
+      run_at: 'document_end',
+      world: 'MAIN',
+      js: ['src/pages/content/index.js'],
       // KEY for cache invalidation
-      css: ["assets/css/contentStyle<KEY>.chunk.css"],
-    },
+      css: ['assets/css/contentStyle<KEY>.chunk.css']
+    }
   ],
-  devtools_page: "src/pages/devtools/index.html",
+  devtools_page: 'src/pages/devtools/index.html',
+  permissions: ['tabs', 'storage', 'scripting'],
+  host_permissions: ['https://www.youtube.com/*'],
   web_accessible_resources: [
     {
-      resources: [
-        "assets/js/*.js",
-        "assets/css/*.css",
-        "icon-128.png",
-        "icon-34.png",
-      ],
-      matches: ["*://*/*"],
+      matches: ['<all_urls>'],
+      resources: ['src/pages/content/index.js']
     },
-  ],
+    {
+      resources: ['assets/js/*.js', 'assets/css/*.css', 'icon-128.png', 'icon-34.png'],
+      matches: ['*://*/*']
+    }
+  ]
 };
 
 export default manifest;
