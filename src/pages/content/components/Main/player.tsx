@@ -20,7 +20,6 @@ export default function App() {
     childRef.current.changeNotifState(true)
     clearTimeout(delay)
     delay = setTimeout(() => {
-      console.log('timeout')
       childRef.current.changeNotifState(false)
     }, 1000)
     
@@ -38,7 +37,7 @@ export default function App() {
         childRef.current.setNotif([field, new Date(getCurrentTime() * 1000).toISOString().slice(11,19)])
           break;
       case 'speed':
-        setPlaybackRate(getPlaybackRate() + (delta * step / 100))
+        setPlaybackRate(getPlaybackRate() + (delta * (step < 5 ? 5 : step) / 100))
         childRef.current.setNotif([field, getPlaybackRate()])
         break;
       default:
@@ -74,7 +73,7 @@ export default function App() {
       <div
         ref={overlay}
         className="content-view text-lime-400"
-        style={{ position: 'absolute', zIndex: 11, minHeight: '100%', minWidth: '100%', border: '1px solid white' }}
+        style={{ position: 'absolute', zIndex: 11, minHeight: '100%', minWidth: '100%', border: '0px solid white' }}
         onClick={() => playStop()}
         onDoubleClick={() => restoreFullscreen()}
       >

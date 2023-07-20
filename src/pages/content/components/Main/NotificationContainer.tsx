@@ -12,8 +12,20 @@ const NotificationContainer = (_, ref) => {
   }));
 
   return (
-    <div className={`notif-container absolute z-50 p-5 text-5xl ${showNotif ? 'show-notif' : 'hide-notif'}`}>
-      {notif[0]}: {notif[1]}
+    <div
+      className={`notif-container absolute font-bold z-10 p-11 text-6xl flex min-w-full justify-center ${
+        showNotif ? 'show-notif' : 'hide-notif'
+      }`}
+    >
+      <span>
+        {notif[0]}: {notif[1]}
+        {
+          {
+            volume: '%',
+            speed: 'x'
+          }[notif[0]]
+        }
+      </span>
     </div>
   );
 };

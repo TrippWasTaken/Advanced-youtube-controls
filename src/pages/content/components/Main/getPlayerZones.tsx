@@ -1,9 +1,6 @@
 import React from 'react';
 
-interface Props {
-  zoneSettings?: null | string;
-}
-const PlayerZones = ({ zoneSettings = 'default' }: Props) => {
+const PlayerZones = () => {
   const playerZones = [
     {
       zone: 'left',
