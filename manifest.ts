@@ -9,6 +9,10 @@ const manifest: chrome.runtime.ManifestV3 = {
   version: packageJson.version,
   description: packageJson.description,
   options_page: 'src/pages/options/index.html',
+  background: {
+    service_worker: 'src/pages/background/index.js',
+    type: 'module'
+  },
   action: {
     default_popup: 'src/pages/popup/index.html',
     default_icon: 'icon-34.png'
@@ -21,6 +25,8 @@ const manifest: chrome.runtime.ManifestV3 = {
       matches: ['https://www.youtube.com/*', 'https://music.youtube.com/*'],
       all_frames: true,
       run_at: 'document_end',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       world: 'MAIN',
       js: ['src/pages/content/index.js'],
       // KEY for cache invalidation

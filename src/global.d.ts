@@ -35,3 +35,14 @@ declare module "*.json" {
   const content: string;
   export default content;
 }
+
+type appSettings = {
+  saveVolume: boolean;
+  zonesPerControl: number;
+  speedControls: boolean;
+  seekingControls: boolean;
+  volumeControls: boolean;
+  speedSteps: Array<number>
+  seekingSteps: Array<number>
+  volumeSteps: Array<number>
+}

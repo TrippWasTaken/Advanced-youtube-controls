@@ -6,5 +6,15 @@ reloadOnUpdate('pages/background');
  * If you do not use the css of the content script, please delete it.
  */
 reloadOnUpdate('pages/content/style.scss');
+console.log('cool listener thing');
 
-console.log('background loaded');
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log(sender);
+  if (request.localstorage == 'ytControlsSettings') {
+    sendResponse({
+      ytControlsSettings: chrome.storage.sync.get(['ytControlsSettings'], function (result) {
+        return result.ytControlsSettings;
+      })
+    });
+  } else sendResponse({});
+});
