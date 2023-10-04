@@ -5,16 +5,15 @@ reloadOnUpdate('pages/background');
  * Extension reloading is necessary because the browser automatically caches the css.
  * If you do not use the css of the content script, please delete it.
  */
-reloadOnUpdate('pages/content/style.scss');
-console.log('cool listener thing');
+console.log('does this reload');
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(sender);
-  if (request.localstorage == 'ytControlsSettings') {
-    sendResponse({
-      ytControlsSettings: chrome.storage.sync.get(['ytControlsSettings'], function (result) {
-        return result.ytControlsSettings;
-      })
-    });
-  } else sendResponse({});
-});
+const functionTest = () => {
+  chrome.runtime.onMessageExternal.addListener(function (request, sender, sendResponse) {
+    console.log('Received message from  ', request);
+    if (request === 'ytControlsSettings') {
+      chrome.storage.sync.get(['ytControlsSettings']).then((result) => sendResponse(result));
+    } else sendResponse(null);
+  });
+};
+
+functionTest();

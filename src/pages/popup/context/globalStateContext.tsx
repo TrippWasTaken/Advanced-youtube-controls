@@ -10,7 +10,7 @@ type contextTypes = {
 // @ts-ignore
 export const Context = createContext<contextTypes>();
 
-const GlobalContextProvider = ({ children }: never) => {
+const GlobalContextProvider = ({ children }: {children}) => {
   const [settings, setSettings] = useState<appSettings>(null);
   const getInitialState = () => {
     chrome.storage.sync.get(['ytControlsSettings']).then((result) => {

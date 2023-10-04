@@ -20,9 +20,14 @@ const manifest: chrome.runtime.ManifestV3 = {
   icons: {
     '128': 'icon-128.png'
   },
+  externally_connectable: {
+    ids: ['*'],
+    matches: ['https://*.youtube.com/*', 'https://youtube.com/*'],
+    accepts_tls_channel_id: false
+  },
   content_scripts: [
     {
-      matches: ['https://www.youtube.com/*', 'https://music.youtube.com/*'],
+      matches: ['https://www.youtube.com/*'],
       all_frames: true,
       run_at: 'document_end',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -38,7 +43,7 @@ const manifest: chrome.runtime.ManifestV3 = {
   host_permissions: ['https://www.youtube.com/*'],
   web_accessible_resources: [
     {
-      matches: ['<all_urls>'],
+      matches: ['https://www.youtube.com/*'],
       resources: ['src/pages/content/index.js']
     },
     {
