@@ -38,11 +38,12 @@ declare module "*.json" {
 
 type appSettings = {
   saveVolume: boolean;
+  savedVolume: number;
   zonesPerControl: number;
   speedControls: boolean;
   seekingControls: boolean;
   volumeControls: boolean;
-  speedSteps: Array<number>
-  seekingSteps: Array<number>
-  volumeSteps: Array<number>
+  speedSteps: Array<object>
+  seekingSteps: Array<object>
+  volumeSteps: Array<object>
 }

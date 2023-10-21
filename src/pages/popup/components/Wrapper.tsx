@@ -6,7 +6,6 @@ const Wrapper = () => {
     actions: { modifySetting }
   } = useGlobalState();
 
-  console.log(settings);
   return (
     <div className="App">
       <h1 className="text-xl">Settings </h1>
@@ -43,8 +42,8 @@ const Wrapper = () => {
             <span className="label-text">Save Volume between videos</span>
             <div
               className="tooltip tooltip-left before:w-[10rem] before:content-[attr(data-tip)]"
-              data-tip="If this is disabled audio will reset to whatever it was set from the youtube 
-              player when switching between videos"
+              data-tip="Sometimes other extensions can cause youtube to refresh on video change, 
+              enabling this will maintain audio levels when this happens"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                 <path

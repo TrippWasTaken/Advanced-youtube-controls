@@ -1,10 +1,13 @@
-import React from 'react';
-
-const PlayerZones = () => {
+import { appSettings } from 'virtual:reload-on-update-in-background-script';
+type props = {
+  settings: appSettings
+};
+const PlayerZones = ({ settings }: props) => {
+  console.log(settings);
   const playerZones = [
     {
       zone: 'left',
-      enable: true,
+      enable: settings.speedControls,
       controls: 'speed',
       subZones: [
         {
@@ -23,7 +26,7 @@ const PlayerZones = () => {
     },
     {
       zone: 'middle',
-      enable: true,
+      enable: settings.seekingControls,
       controls: 'seek',
       subZones: [
         {
@@ -42,7 +45,7 @@ const PlayerZones = () => {
     },
     {
       zone: 'right',
-      enable: true,
+      enable: settings.volumeControls,
       controls: 'volume',
       subZones: [
         {

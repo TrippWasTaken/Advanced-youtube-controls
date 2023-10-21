@@ -8,8 +8,14 @@ const root = document.createElement('div');
 root.id = 'chrome-extension-youtube-controls';
 root.style.minHeight = '100%';
 root.style.minWidth = '100%';
-const youtubePlayer = document.querySelector('div#movie_player.html5-video-player');
-if (youtubePlayer) youtubePlayer.append(root);
-else console.error('cannot find youtube player container');
+let youtubePlayer;
+const mountNode = () => {
+  youtubePlayer = document.querySelector('div#movie_player.html5-video-player');
+  if (youtubePlayer) {
+    clearInterval(checkPlayer);
+    youtubePlayer.append(root);
 
-createRoot(root).render(<App />);
+    createRoot(root).render(<App />);
+  } else console.warn('Player has not been found');
+};
+const checkPlayer = setInterval(mountNode, 1000);

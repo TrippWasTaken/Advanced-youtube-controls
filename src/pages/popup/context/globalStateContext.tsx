@@ -6,17 +6,20 @@ type contextTypes = {
   state: { settings: appSettings },
   actions: { modifySetting: (setting, value) => void }
 };
+
+type props = {
+  children: never
+};
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const Context = createContext<contextTypes>();
 
-const GlobalContextProvider = ({ children }: {children}) => {
+const GlobalContextProvider = ({ children }: props) => {
   const [settings, setSettings] = useState<appSettings>(null);
   const getInitialState = () => {
     chrome.storage.sync.get(['ytControlsSettings']).then((result) => {
-      console.log(result.ytControlsSettings);
       if (Object.keys(result).length === 0) {
-        chrome.storage.sync.set({ ytControlsSettings: defaultSettings });
+        chrome.storage.sync.set({ defaultSettings });
         setSettings(defaultSettings);
       } else {
         setSettings(result.ytControlsSettings);
@@ -38,9 +41,13 @@ const GlobalContextProvider = ({ children }: {children}) => {
     setSettings((prev) => ({ ...prev, [setting]: value }));
   };
 
+  const modifyStepsCount = (setting, type, value) => {
+    console.log(setting, type, value);
+  };
+
   const state = { settings };
 
-  const actions = { modifySetting };
+  const actions = { modifySetting, modifyStepsCount };
 
   return <Context.Provider value={{ state, actions }}>{children}</Context.Provider>;
 };

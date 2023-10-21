@@ -1,22 +1,29 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { type YouTubePlayer } from 'youtube-player/dist/types';
 import PlayerZones from './getPlayerZones';
 import NotificationContainer from './NotificationContainer';
+import { appSettings } from 'virtual:reload-on-update-in-background-script';
+import { defaultSettings } from '@src/pages/variables/defaultSettings';
 
 export default function App() {
   let delay = null;
+  const [settings, setSettings] = useState<appSettings>(defaultSettings);
   const childRef = useRef(null);
   const overlay = useRef<HTMLDivElement | null>(null);
-  const player: YouTubePlayer = document.querySelector('#movie_player') as unknown as YouTubePlayer;
+  const player: YouTubePlayer = document.querySelector('#movie_player') as never;
+  // const qualityLevels = player?.getAvailableQualityLevels();
   useEffect(() => {
-    if (overlay.current) overlay.current.addEventListener('wheel', (e) => scrollAction(e), { passive: false });
-
-    console.log('runtime ID test',chrome.runtime.id);
-    // chrome.runtime.connect()
-    chrome.runtime.sendMessage('bmemophofdedblhcbjepmaobnbefafdj','ytControlsSettings', function(response){
-      console.log("cool message response: ", response)
-    })
-
+    if (overlay.current) {
+      overlay.current.addEventListener('wheel', (e) => scrollAction(e), { passive: false });
+    }
+    chrome.runtime.sendMessage('bmemophofdedblhcbjepmaobnbefafdj', { type: 'getSettings' }, function (response) {
+      const {ytControlsSettings} = response
+      if (Object.keys(response).length > 0) setSettings(ytControlsSettings);
+      if (player){
+        console.log('setting volume to', ytControlsSettings.savedVolume)
+        player.setVolume(ytControlsSettings.savedVolume);
+      } 
+    });
 
     return overlay.current.removeEventListener('wheel', (e) => scrollAction(e));
   }, []);
@@ -27,6 +34,8 @@ export default function App() {
     childRef.current.changeNotifState(true);
     clearTimeout(delay);
     delay = setTimeout(() => {
+      chrome.runtime.sendMessage('bmemophofdedblhcbjepmaobnbefafdj', { type: 'saveVolume', volume: getVolume() });
+
       childRef.current.changeNotifState(false);
     }, 1000);
 
@@ -36,6 +45,7 @@ export default function App() {
     switch (field) {
       case 'volume':
         setVolume(getVolume() + delta * step);
+        console.log(getVolume());
         childRef.current.setNotif([field, getVolume()]);
         break;
       case 'seek':
@@ -80,7 +90,7 @@ export default function App() {
         onClick={() => playStop()}
         onDoubleClick={() => restoreFullscreen()}
       >
-        <PlayerZones />
+        <PlayerZones settings={settings} />
       </div>
     </>
   );
