@@ -10,23 +10,24 @@ export default function App() {
   const [settings, setSettings] = useState<appSettings>(defaultSettings);
   const childRef = useRef(null);
   const overlay = useRef<HTMLDivElement | null>(null);
-  const player: YouTubePlayer = document.querySelector('#movie_player') as never;
-  // const qualityLevels = player?.getAvailableQualityLevels();
+  // This is annoying as it breaks prettier
+  const player: YouTubePlayer = document.querySelector('#movie_player') as unknown as YouTubePlayer;
+  const EXTENSION_ID = 'bmemophofdedblhcbjepmaobnbefafdj';
+
   useEffect(() => {
     if (overlay.current) {
       overlay.current.addEventListener('wheel', (e) => scrollAction(e), { passive: false });
     }
-    chrome.runtime.sendMessage('bmemophofdedblhcbjepmaobnbefafdj', { type: 'getSettings' }, function (response) {
-      const {ytControlsSettings} = response
+    chrome.runtime.sendMessage(EXTENSION_ID, { type: 'getSettings' }, function (response) {
+      const { ytControlsSettings } = response;
       if (Object.keys(response).length > 0) setSettings(ytControlsSettings);
-      if (player){
-        console.log('setting volume to', ytControlsSettings.savedVolume)
+      if (player && settings?.saveVolume) {
         player.setVolume(ytControlsSettings.savedVolume);
-      } 
+      }
     });
-
     return overlay.current.removeEventListener('wheel', (e) => scrollAction(e));
   }, []);
+
   const scrollAction = (e) => {
     e.preventDefault();
     const { getVolume, setVolume, seekBy, setPlaybackRate, getPlaybackRate, getCurrentTime } = player;
@@ -34,7 +35,8 @@ export default function App() {
     childRef.current.changeNotifState(true);
     clearTimeout(delay);
     delay = setTimeout(() => {
-      chrome.runtime.sendMessage('bmemophofdedblhcbjepmaobnbefafdj', { type: 'saveVolume', volume: getVolume() });
+      if (getVolume() !== settings?.savedVolume)
+        chrome.runtime.sendMessage(EXTENSION_ID, { type: 'saveVolume', volume: getVolume() });
 
       childRef.current.changeNotifState(false);
     }, 1000);
@@ -86,7 +88,7 @@ export default function App() {
       <div
         ref={overlay}
         className="content-view"
-        style={{ position: 'absolute', zIndex: 11, minHeight: '100%', minWidth: '100%', border: '0px solid white' }}
+        style={{ position: 'absolute', zIndex: 11, minHeight: '100%', minWidth: '100%' }}
         onClick={() => playStop()}
         onDoubleClick={() => restoreFullscreen()}
       >

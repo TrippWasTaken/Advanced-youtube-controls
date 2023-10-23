@@ -3,7 +3,8 @@ type props = {
   settings: appSettings
 };
 const PlayerZones = ({ settings }: props) => {
-  console.log(settings);
+  // @TODO create settings page to allow finer control of things like player steps
+  // and multi zone from just the settings so this ugly var doesnt need to be used
   const playerZones = [
     {
       zone: 'left',
@@ -68,7 +69,6 @@ const PlayerZones = ({ settings }: props) => {
     ...item,
     subZones: item.subZones.filter((subZone) => subZone.zone)
   }));
-  console.log(filteredZones);
   return (
     <>
       {innerZonesFiltered.map((innerZone) => (

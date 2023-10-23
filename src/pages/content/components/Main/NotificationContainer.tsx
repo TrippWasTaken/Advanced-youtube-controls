@@ -4,11 +4,10 @@ const NotificationContainer = (_, ref) => {
   const [showNotif, setShowNotif] = useState<boolean>(false);
   const [notif, setNotif] = useState([]);
 
-  console.log(showNotif);
   useImperativeHandle(ref, () => ({
     notifState: showNotif,
-    changeNotifState: (e) => setShowNotif(e),
-    setNotif: (e) => setNotif(e)
+    changeNotifState: (e: boolean) => setShowNotif(e),
+    setNotif: (e: Array<string | number>) => setNotif(e)
   }));
 
   return (
@@ -17,15 +16,17 @@ const NotificationContainer = (_, ref) => {
         showNotif ? 'show-notif' : 'hide-notif'
       }`}
     >
-      <span>
-        {notif[0]}: {notif[1]}
-        {
+      {!notif[0] && (
+        <span>
+          {notif[0]}: {notif[1]}
           {
-            volume: '%',
-            speed: 'x'
-          }[notif[0]]
-        }
-      </span>
+            {
+              volume: '%',
+              speed: 'x'
+            }[notif[0]]
+          }
+        </span>
+      )}
     </div>
   );
 };

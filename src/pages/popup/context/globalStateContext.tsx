@@ -1,5 +1,5 @@
 import { defaultSettings } from '@src/pages/variables/defaultSettings';
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { appSettings } from '@src/global';
 
 type contextTypes = {
@@ -8,7 +8,7 @@ type contextTypes = {
 };
 
 type props = {
-  children: never
+  children: ReactNode
 };
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
