@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-boilerplate-react-vite",
-  "version": "0.0.1",
-  "description": "chrome extension boilerplate",
+  "name": "youtube-advanced-controls",
+  "version": "1.0.0",
+  "description": "Use your scroll wheel to control speed, time and volume when hovering over youtube videos!",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite.git"
+    "url": "https://github.com/TrippWasTaken/Advanced-youtube-controls.git"
   },
   "scripts": {
     "build": "tsc --noEmit && vite build",
