@@ -16,7 +16,7 @@ const NotificationContainer = (_, ref) => {
         showNotif ? 'show-notif' : 'hide-notif'
       }`}
     >
-      {!notif[0] && (
+      {notif[0] && (
         <span>
           {notif[0]}: {notif[1]}
           {
