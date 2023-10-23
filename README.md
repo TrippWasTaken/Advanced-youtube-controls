@@ -6,10 +6,10 @@
  > This extension is built using the boilerplate from [chrome-extension-boilerplate-react-vite](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
 
 ## How to use
-I have not yet put this on the chrome store and not sure when I will or if I will as this was made more for personal use but if you wish to try it youre free to do so.
+I have not yet put this on the chrome store and not sure when I will or if I will as this was made more for personal use but if you wish to try it you're free to do so.
 
 1. First download the project and build it using either ```npm run dev``` or ```npm run build```
-2. Next make sure to enable developer mode in the chrome extension mneu
+2. Next make sure to enable developer mode in the chrome extension menu
 3. click load unpacked button
 4. select the extensions ```dist``` folder
 5. Once youve added the folder the extension is ready to use, but saving and settings may not work if your ID differs from the one I have.
