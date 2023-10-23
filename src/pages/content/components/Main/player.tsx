@@ -4,6 +4,7 @@ import PlayerZones from './getPlayerZones';
 import NotificationContainer from './NotificationContainer';
 import { appSettings } from 'virtual:reload-on-update-in-background-script';
 import { defaultSettings } from '@src/pages/variables/defaultSettings';
+import { APP_ID } from '@src/pages/variables/APP_ID';
 
 export default function App() {
   let delay = null;
@@ -12,13 +13,12 @@ export default function App() {
   const overlay = useRef<HTMLDivElement | null>(null);
   // This is annoying as it breaks prettier
   const player: YouTubePlayer = document.querySelector('#movie_player') as unknown as YouTubePlayer;
-  const EXTENSION_ID = 'bmemophofdedblhcbjepmaobnbefafdj';
 
   useEffect(() => {
     if (overlay.current) {
       overlay.current.addEventListener('wheel', (e) => scrollAction(e), { passive: false });
     }
-    chrome.runtime.sendMessage(EXTENSION_ID, { type: 'getSettings' }, function (response) {
+    chrome.runtime.sendMessage(APP_ID, { type: 'getSettings' }, function (response) {
       const { ytControlsSettings } = response;
       if (Object.keys(response).length > 0) setSettings(ytControlsSettings);
       if (player && settings?.saveVolume) {
@@ -36,7 +36,7 @@ export default function App() {
     clearTimeout(delay);
     delay = setTimeout(() => {
       if (getVolume() !== settings?.savedVolume)
-        chrome.runtime.sendMessage(EXTENSION_ID, { type: 'saveVolume', volume: getVolume() });
+        chrome.runtime.sendMessage(APP_ID, { type: 'saveVolume', volume: getVolume() });
 
       childRef.current.changeNotifState(false);
     }, 1000);
